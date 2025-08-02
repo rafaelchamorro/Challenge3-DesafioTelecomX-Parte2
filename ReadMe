@@ -1,43 +1,83 @@
-Análisis y Predicción de Evasión de Clientes (Churn) en TelecomX
-Resumen del Proyecto
-Este proyecto realiza un análisis exploratorio de datos (EDA) exhaustivo y desarrolla modelos predictivos para identificar los factores que influyen en la evasión de clientes (Churn) en la empresa de telecomunicaciones TelecomX. El objetivo es comprender por qué los clientes se van y desarrollar estrategias de retención efectivas.
+# Análisis y Predicción de Evasión de Clientes (Churn) en TelecomX
 
-El proyecto se divide en dos partes principales:
+## Propósito del Análisis
 
-Parte 1: Análisis Exploratorio de Datos y Limpieza
+El objetivo principal de este proyecto es realizar un análisis exhaustivo para comprender los factores que influyen en la **evasión de clientes (Churn)** en la empresa de telecomunicaciones TelecomX y desarrollar **modelos predictivos** capaces de identificar a los clientes con alta probabilidad de cancelar su servicio. Al predecir el churn, TelecomX puede implementar estrategias de retención proactivas y dirigidas para reducir la pérdida de clientes y optimizar sus recursos.
 
-En esta sección, se realizó la carga y limpieza inicial de los datos. Se abordó la estructura JSON anidada del dataset original, normalizando las columnas relevantes para crear un DataFrame plano. Se identificaron y manejaron inconsistencias en los datos, como valores vacíos en la columna Charges.Total, y se aseguró la correcta tipificación de las columnas. Además, se realizó un análisis descriptivo para comprender la distribución de la evasión y explorar la relación entre diversas variables (categóricas y numéricas) y la probabilidad de Churn a través de visualizaciones.
+## Estructura del Proyecto y Organización de Archivos
 
-Parte 2: Modelado Predictivo de Evasión
+El proyecto está organizado de la siguiente manera:
 
-Esta sección se centra en la construcción y evaluación de modelos de aprendizaje automático para predecir la evasión de clientes.
+*   `[Nombre del Cuaderno Principal].ipynb`: Este es el cuaderno principal de Colab que contiene todo el código y el análisis realizado, desde la carga de datos inicial hasta el modelado predictivo y la evaluación.
+*   `/tmp/df_telecom_processed.csv`: Este archivo CSV guarda el DataFrame después de las etapas de limpieza y tratamiento de datos iniciales, listo para ser utilizado en la parte de modelado.
+*   Carpeta de Visualizaciones (Opcional): Si se generan y guardan imágenes de los gráficos, se recomienda crear una carpeta específica para ellas (ej: `visualizaciones/`).
 
-Flujo de Trabajo de la Parte 2:
-Preparación de Datos para Modelado:
+## Resumen de la Parte 1: Análisis Exploratorio de Datos y Limpieza
 
-Se eliminaron columnas no necesarias para el modelado, como customerID.
-Se aplicó One-Hot Encoding a las variables categóricas para convertirlas a un formato numérico que los modelos puedan procesar. Se documentó el mapeo de la codificación.
-Se verificó la proporción de la variable objetivo (Churn) para identificar posibles desbalances de clases.
-Se realizó la Normalización de las columnas numéricas utilizando MinMaxScaler para escalar los valores a un rango específico, lo cual es crucial para algunos algoritmos de modelado como KNN.
-Separación de Datos:
+En esta sección inicial, se llevó a cabo la carga de los datos desde una API y una limpieza preliminar. Se abordó la estructura anidada de algunas columnas normalizándolas para obtener un DataFrame más plano. Se realizó un proceso de limpieza para manejar valores inconsistentes, como cadenas vacías en la columna de cargos totales, y se aseguró la correcta tipificación de los datos. Se verificó la presencia de valores nulos y duplicados. Finalmente, se realizó un análisis exploratorio detallado para comprender las características de los clientes y la distribución de la evasión, utilizando visualizaciones para identificar patrones iniciales.
 
-El DataFrame procesado se dividió en conjuntos de entrenamiento y prueba (X_train, X_test, y_train, y_test) para entrenar y evaluar los modelos de manera imparcial. Se utilizó una división estratificada para mantener la proporción de la clase objetivo en ambos conjuntos.
-Creación y Evaluación de Modelos:
+## Descripción del Proceso de Preparación de Datos (Parte 2)
 
-Se implementaron y entrenaron dos modelos de clasificación:
-K-Nearest Neighbors (KNN): Un modelo que requiere datos normalizados. Se entrenó y evaluó su rendimiento utilizando métricas como Exactitud, Reporte de Clasificación y Matriz de Confusión.
-Random Forest: Un modelo basado en árboles que generalmente no requiere normalización. Se entrenó y evaluó de manera similar al KNN.
-Se realizó un Análisis de Correlación (especialmente con la variable objetivo Churn_numeric) para identificar las variables con mayor relación lineal con la evasión. Este análisis complementa los hallazgos del EDA y ayuda a comprender qué características son más predictivas.
-Se llevó a cabo un Análisis Dirigido para visualizar la relación de las variables más relevantes (como 'Contract' y 'Charges.Total') con el Churn, reforzando los hallazgos del análisis de correlación y el EDA.
-Se presentaron las Evaluaciones detalladas de ambos modelos (KNN y Random Forest), mostrando sus métricas de rendimiento en el conjunto de prueba.
-Comparación y Análisis Crítico de Modelos:
+La segunda parte del proyecto se enfoca en preparar los datos limpios para el modelado predictivo:
 
-Se comparó el rendimiento del modelo KNN y Random Forest basándose en las métricas de evaluación. Se analizó críticamente cuál modelo tuvo un mejor desempeño general y en la identificación de la clase minoritaria (clientes que evaden), discutiendo las implicaciones de los Falsos Positivos y Falsos Negativos.
-Análisis de Variables Relevantes para la Predicción:
+1.  **Selección de Variables:** Se seleccionaron las columnas relevantes identificadas durante el EDA para el modelado, excluyendo aquellas que no aportaban valor predictivo o contenían identificadores únicos como `customerID`.
+2.  **Clasificación de Variables:** Las variables se clasificaron en:
+    *   **Numéricas:** Variables con valores continuos o discretos que representan cantidades (ej: `tenure`, `Charges.Monthly`, `Charges.Total`, `Cuentas_Diarias`).
+    *   **Categóricas:** Variables con un número limitado de categorías (ej: `gender`, `Partner`, `Contract`, `PaymentMethod`, etc.). La variable objetivo `Churn` es una variable categórica binaria.
+3.  **Manejo de la Variable Objetivo (Churn):** La variable `Churn` se convirtió a un formato numérico binario (0 para 'No', 1 para 'Yes') para que los modelos de clasificación pudieran utilizarla. Se verificó la proporción de clientes con y sin churn para entender el desbalance de clases.
+4.  **Codificación de Variables Categóricas:** Se aplicó **One-Hot Encoding** a las variables categóricas para transformarlas en columnas numéricas binarias (variables dummy). Esto es necesario para que la mayoría de los algoritmos de aprendizaje automático puedan procesarlas. Se eliminó una de las columnas dummy para evitar la multicolinealidad (`drop_first=True`). Se generó un diccionario de mapeo para entender la relación entre las categorías originales y las nuevas columnas.
+5.  **Normalización de Variables Numéricas:** Las columnas numéricas se normalizaron utilizando **`MinMaxScaler`**. Este proceso escala los valores numéricos a un rango específico (generalmente entre 0 y 1), lo cual es fundamental para algoritmos que son sensibles a la escala de las características, como K-Nearest Neighbors (KNN). Modelos basados en árboles como Random Forest no requieren normalización, pero realizarla crea un dataset más versátil.
+6.  **Separación de Datos:** Los datos se dividieron en un conjunto de entrenamiento (80%) y un conjunto de prueba (20%) utilizando **`train_test_split`**. La división se realizó de forma estratificada (`stratify=y`) para asegurar que la proporción de la variable objetivo (`Churn`) fuera similar en ambos conjuntos, lo cual es importante para modelos entrenados en datasets con cierto desbalance.
 
-Se consolidaron los hallazgos del análisis de correlación y la importancia implícita de las variables en el rendimiento del modelo para identificar de manera concluyente las variables más influyentes en la predicción de la evasión.
-Informe Final Parte 2:
+## Justificaciones para las Decisiones de Modelización
 
-Se elaboró un informe que resume los Factores Clave que Influyen en la Cancelación identificados a lo largo del análisis y modelado.
-Se propusieron Estrategias de Retención Propuestas basadas directamente en los factores de evasión identificados y priorizados por su relevancia.
-Este README proporciona una visión general de las etapas del proyecto, con un enfoque detallado en los pasos realizados en la Parte 2 para el desarrollo del modelo predictivo y la derivación de estrategias de retención.
+Se seleccionaron dos modelos de clasificación para abordar el problema de predicción de churn:
+
+*   **K-Nearest Neighbors (KNN):** Elegido por su simplicidad y porque es un buen modelo de referencia para problemas de clasificación. Requiere la normalización de las características para calcular distancias de manera efectiva.
+*   **Random Forest:** Seleccionado por ser un algoritmo de conjunto robusto que generalmente tiene un buen rendimiento en una amplia gama de problemas de clasificación. Al ser un modelo basado en árboles, no es sensible a la escala de las características.
+
+La evaluación de los modelos se basó en métricas como Exactitud, Precisión, Recall y F1-score, prestando especial atención al rendimiento en la clase minoritaria (Churn 'Yes'), ya que identificar correctamente a los clientes propensos a la evasión es crucial para las estrategias de retención. La matriz de confusión proporcionó una visión detallada de los Falsos Positivos y Falsos Negativos.
+
+## Análisis de Variables Relevantes para la Predicción
+
+Basándonos en el análisis de correlación y los resultados de los modelos predictivos, se identifican consistentemente varias variables como las más relevantes para predecir la cancelación de clientes. La **antigüedad (tenure)** del cliente emerge como un factor crucial, con una correlación negativa significativa con la evasión, lo que indica que los clientes con mayor tiempo en la empresa son menos propensos a irse. El **tipo de contrato** también es altamente influyente; los clientes con contratos mes a mes presentan una probabilidad de evasión sustancialmente mayor en comparación con aquellos con contratos a más largo plazo (uno o dos años). El **servicio de internet** es otro predictor clave, particularmente el servicio de fibra óptica, que muestra una correlación positiva notable con la evasión, sugiriendo posibles problemas de satisfacción con este servicio. Además, el **método de pago** "Cheque electrónico" y la **facturación electrónica** también tienen una asociación positiva con la evasión.
+
+Las variables menos relevantes, como el género, el servicio telefónico y la mayoría de los servicios adicionales de internet (aunque algunos mostraron una influencia moderada como Online Security y Tech Support), parecen tener un impacto menor en la decisión del cliente de cancelar el servicio. Esto sugiere que los esfuerzos de retención deben centrarse principalmente en abordar los factores identificados como de alta influencia: mejorar la experiencia de los clientes nuevos, fomentar contratos a largo plazo, investigar y resolver posibles problemas con el servicio de fibra óptica, y analizar los patrones de evasión asociados a ciertos métodos de pago y la facturación electrónica. Priorizar estas variables permitirá desarrollar estrategias de retención más efectivas y dirigidas.
+
+## Ejemplos de Gráficos e Insights (EDA)
+
+Durante el Análisis Exploratorio de Datos (EDA), se obtuvieron insights valiosos a través de visualizaciones:
+
+*   **Distribución de Churn:** Un gráfico de barras mostró claramente que la mayoría de los clientes no evaden, pero existe una porción significativa que sí lo hace.
+*   **Churn por Tipo de Contrato:** Un gráfico de barras (celda con `sns.countplot(..., x='Contract', hue='Churn', ...)` ) reveló que los clientes con contratos mes a mes tienen una tasa de evasión drásticamente mayor.
+*   **Distribución de Gasto Total por Churn:** Un boxplot (celda con `sns.boxplot(..., x='Churn', y='Charges.Total', ...)` ) ilustró que los clientes que evaden tienden a tener un gasto total acumulado menor, lo cual es coherente con una menor antigüedad.
+*   **Correlación de Variables:** Un mapa de calor (celda con `sns.heatmap(...)` ) permitió visualizar las relaciones entre las variables numéricas y booleanas, destacando la correlación negativa de `tenure` y `Contract_Two year` con el Churn, y la correlación positiva de `InternetService_Fiber optic` y `PaymentMethod_Electronic check`.
+
+## Informe Final: Factores de Evasión y Estrategias de Retención
+
+Este informe resume los factores clave que influyen en la cancelación de clientes y propone estrategias de retención basadas en el análisis de datos y el modelado predictivo:
+
+### Factores Clave que Influyen en la Cancelación (Churn)
+
+*   **Antigüedad del Cliente (Tenure):** Menor antigüedad = mayor probabilidad de evasión.
+*   **Tipo de Contrato:** Contratos mes a mes >> contratos a largo plazo en tasa de evasión.
+*   **Servicio de Internet (Fiber Optic):** Clientes con Fibra Óptica tienen mayor propensión a la evasión.
+*   **Servicios Adicionales de Internet:** La falta de servicios como Online Security, Backup, Device Protection y Tech Support se asocia a mayor evasión.
+*   **Método de Pago (Electronic Check):** Este método de pago muestra una mayor probabilidad de cancelación.
+*   **Cargos Mensuales (Charges.Monthly):** Cargos mensuales más altos tienden a estar asociados con mayor evasión.
+*   **Facturación Electrónica (PaperlessBilling):** Ligera tendencia a mayor evasión con facturación electrónica.
+
+### Estrategias de Retención Propuestas
+
+1.  **Programas de Incorporación y Retención Temprana:** Enfocarse en clientes nuevos con comunicación proactiva y soporte.
+2.  **Incentivar Contratos a Largo Plazo:** Ofrecer descuentos y beneficios por contratos de 1 o 2 años.
+3.  **Mejorar la Experiencia del Cliente de Fibra Óptica:** Investigar problemas y mejorar el servicio o soporte en este segmento.
+4.  **Promoción de Servicios Adicionales:** Crear paquetes atractivos que incluyan servicios de seguridad, respaldo y soporte técnico.
+5.  **Análisis y Optimización del Proceso de Pago por Cheque Electrónico:** Investigar la causa de la mayor evasión y considerar incentivos para cambiar de método de pago.
+6.  **Gestión de Clientes de Alto Costo Mensual:** Segmentar y evaluar la percepción de valor para clientes con altos cargos, ofreciendo opciones personalizadas.
+7.  **Segmentación y Ofertas Personalizadas:** Utilizar el modelo predictivo para identificar clientes de alto riesgo y dirigir campañas de retención específicas.
+
+## Instrucciones para Ejecutar el Cuaderno
+
+1.  **Abrir en Google Colab:** Cargar el archivo `.ipynb` en Google Colab.
+2.  **Instalar Bibliotecas:** Asegurarse de tener instaladas las bibliotecas necesarias. La mayoría están preinstaladas en Colab.
