@@ -1,0 +1,43 @@
+Análisis y Predicción de Evasión de Clientes (Churn) en TelecomX
+Resumen del Proyecto
+Este proyecto realiza un análisis exploratorio de datos (EDA) exhaustivo y desarrolla modelos predictivos para identificar los factores que influyen en la evasión de clientes (Churn) en la empresa de telecomunicaciones TelecomX. El objetivo es comprender por qué los clientes se van y desarrollar estrategias de retención efectivas.
+
+El proyecto se divide en dos partes principales:
+
+Parte 1: Análisis Exploratorio de Datos y Limpieza
+
+En esta sección, se realizó la carga y limpieza inicial de los datos. Se abordó la estructura JSON anidada del dataset original, normalizando las columnas relevantes para crear un DataFrame plano. Se identificaron y manejaron inconsistencias en los datos, como valores vacíos en la columna Charges.Total, y se aseguró la correcta tipificación de las columnas. Además, se realizó un análisis descriptivo para comprender la distribución de la evasión y explorar la relación entre diversas variables (categóricas y numéricas) y la probabilidad de Churn a través de visualizaciones.
+
+Parte 2: Modelado Predictivo de Evasión
+
+Esta sección se centra en la construcción y evaluación de modelos de aprendizaje automático para predecir la evasión de clientes.
+
+Flujo de Trabajo de la Parte 2:
+Preparación de Datos para Modelado:
+
+Se eliminaron columnas no necesarias para el modelado, como customerID.
+Se aplicó One-Hot Encoding a las variables categóricas para convertirlas a un formato numérico que los modelos puedan procesar. Se documentó el mapeo de la codificación.
+Se verificó la proporción de la variable objetivo (Churn) para identificar posibles desbalances de clases.
+Se realizó la Normalización de las columnas numéricas utilizando MinMaxScaler para escalar los valores a un rango específico, lo cual es crucial para algunos algoritmos de modelado como KNN.
+Separación de Datos:
+
+El DataFrame procesado se dividió en conjuntos de entrenamiento y prueba (X_train, X_test, y_train, y_test) para entrenar y evaluar los modelos de manera imparcial. Se utilizó una división estratificada para mantener la proporción de la clase objetivo en ambos conjuntos.
+Creación y Evaluación de Modelos:
+
+Se implementaron y entrenaron dos modelos de clasificación:
+K-Nearest Neighbors (KNN): Un modelo que requiere datos normalizados. Se entrenó y evaluó su rendimiento utilizando métricas como Exactitud, Reporte de Clasificación y Matriz de Confusión.
+Random Forest: Un modelo basado en árboles que generalmente no requiere normalización. Se entrenó y evaluó de manera similar al KNN.
+Se realizó un Análisis de Correlación (especialmente con la variable objetivo Churn_numeric) para identificar las variables con mayor relación lineal con la evasión. Este análisis complementa los hallazgos del EDA y ayuda a comprender qué características son más predictivas.
+Se llevó a cabo un Análisis Dirigido para visualizar la relación de las variables más relevantes (como 'Contract' y 'Charges.Total') con el Churn, reforzando los hallazgos del análisis de correlación y el EDA.
+Se presentaron las Evaluaciones detalladas de ambos modelos (KNN y Random Forest), mostrando sus métricas de rendimiento en el conjunto de prueba.
+Comparación y Análisis Crítico de Modelos:
+
+Se comparó el rendimiento del modelo KNN y Random Forest basándose en las métricas de evaluación. Se analizó críticamente cuál modelo tuvo un mejor desempeño general y en la identificación de la clase minoritaria (clientes que evaden), discutiendo las implicaciones de los Falsos Positivos y Falsos Negativos.
+Análisis de Variables Relevantes para la Predicción:
+
+Se consolidaron los hallazgos del análisis de correlación y la importancia implícita de las variables en el rendimiento del modelo para identificar de manera concluyente las variables más influyentes en la predicción de la evasión.
+Informe Final Parte 2:
+
+Se elaboró un informe que resume los Factores Clave que Influyen en la Cancelación identificados a lo largo del análisis y modelado.
+Se propusieron Estrategias de Retención Propuestas basadas directamente en los factores de evasión identificados y priorizados por su relevancia.
+Este README proporciona una visión general de las etapas del proyecto, con un enfoque detallado en los pasos realizados en la Parte 2 para el desarrollo del modelo predictivo y la derivación de estrategias de retención.
